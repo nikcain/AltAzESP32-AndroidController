@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ControlsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="16dp">
+
+        <Button
+            android:id="@+id/selecttargetbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Target"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:layout_editor_absoluteY="40dp" />
+
+        <Switch
+            android:id="@+id/trackingonoff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:showText="true"
+            android:text="Tracking"
+            android:textOff="Off"
+            android:textOn="On"
+            app:layout_constraintEnd_toEndOf="@+id/selecttargetbtn"
+            app:layout_constraintStart_toStartOf="@+id/selecttargetbtn"
+            app:layout_constraintTop_toBottomOf="@id/selecttargetbtn" />
+
+        <Switch
+            android:id="@+id/calibrateonoff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:showText="true"
+            android:text="Calibrate"
+            android:textOff="Off"
+            android:textOn="On"
+            app:layout_constraintEnd_toEndOf="@+id/trackingonoff"
+            app:layout_constraintStart_toStartOf="@id/trackingonoff"
+            app:layout_constraintTop_toBottomOf="@id/trackingonoff" />
+
+        <Button
+            android:id="@+id/gototargetbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Go To Target"
+            app:layout_constraintEnd_toEndOf="@+id/calibrateonoff"
+            app:layout_constraintStart_toStartOf="@id/calibrateonoff"
+            app:layout_constraintTop_toBottomOf="@id/calibrateonoff" />
+
+        <Button
+            android:id="@+id/stopbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="Stop"
+            app:layout_constraintEnd_toEndOf="@+id/gototargetbtn"
+            app:layout_constraintStart_toStartOf="@id/gototargetbtn"
+            app:layout_constraintTop_toBottomOf="@id/gototargetbtn" />
+
+        <Button
+            android:id="@+id/upbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:gravity="center_horizontal"
+            android:text="Up"
+            app:layout_constraintEnd_toEndOf="@id/stopbtn"
+            app:layout_constraintStart_toStartOf="@id/stopbtn"
+            app:layout_constraintTop_toBottomOf="@id/stopbtn" />
+
+        <LinearLayout
+            android:id="@+id/leftrightbtns"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="@id/stopbtn"
+            app:layout_constraintStart_toStartOf="@id/stopbtn"
+            app:layout_constraintTop_toBottomOf="@id/upbtn"
+            tools:layout_editor_absoluteX="16dp">
+
+            <Button
+                android:id="@+id/leftbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left" />
+
+            <Button
+                android:id="@+id/rightbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Right" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/downbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:text="Down"
+            app:layout_constraintEnd_toEndOf="@id/upbtn"
+            app:layout_constraintStart_toStartOf="@id/upbtn"
+            app:layout_constraintTop_toBottomOf="@id/leftrightbtns" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

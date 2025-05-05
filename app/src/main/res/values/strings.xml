@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">AltAzGoto</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="control_fragment_label">Control</string>
+    <string name="select_target_fragment_label">Select Target</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="element_text">elementtext</string>
+</resources>
