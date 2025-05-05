@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.Switch;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -15,12 +17,15 @@ public class ControlsFragment extends Fragment {
 
     private FragmentSecondBinding binding;
 
+    private TelescopeTCPClient tcpclient;
+    private targets currentTarget;
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
+        tcpclient = new TelescopeTCPClient();
         binding = FragmentSecondBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -34,6 +39,13 @@ public class ControlsFragment extends Fragment {
                         .navigate(R.id.action_SecondFragment_to_FirstFragment)
         );
 
+        binding.gototargetbtn.setOnClickListener(v->tcpclient.SendTarget(currentTarget));
+        binding.calibrateonoff.setOnClickListener(v->tcpclient.SetCalibration(((Switch)v).isChecked()));
+        binding.trackingonoff.setOnClickListener(v->tcpclient.SetTracking(((Switch)v).isChecked()));
+        binding.upbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.up));
+        binding.downbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.down));
+        binding.leftbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.left));
+        binding.rightbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.right));
     }
 
     @Override
