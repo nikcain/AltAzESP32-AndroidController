@@ -19,7 +19,7 @@
         android:id="@+id/ControlFragment"
         android:name="net.nikcain.altazgoto.ControlsFragment"
         android:label="@string/select_target_fragment_label"
-        tools:layout="@layout/fragment_second">
+        tools:layout="@layout/fragment_controls">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"

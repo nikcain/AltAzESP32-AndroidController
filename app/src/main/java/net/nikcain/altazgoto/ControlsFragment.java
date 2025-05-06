@@ -11,24 +11,21 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
-import net.nikcain.altazgoto.databinding.FragmentSecondBinding;
+import net.nikcain.altazgoto.databinding.FragmentControlsBinding;
 
 public class ControlsFragment extends Fragment {
 
-    private FragmentSecondBinding binding;
+    private FragmentControlsBinding binding;
 
-    private TelescopeTCPClient tcpclient;
-    private targets currentTarget;
+    private TelescopeTCPClient tcpclient = new TelescopeTCPClient();
 
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        tcpclient = new TelescopeTCPClient();
-        binding = FragmentSecondBinding.inflate(inflater, container, false);
+        binding = FragmentControlsBinding.inflate(inflater, container, false);
         return binding.getRoot();
-
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
@@ -39,13 +36,14 @@ public class ControlsFragment extends Fragment {
                         .navigate(R.id.action_SecondFragment_to_FirstFragment)
         );
 
-        binding.gototargetbtn.setOnClickListener(v->tcpclient.SendTarget(currentTarget));
+        binding.gototargetbtn.setOnClickListener(v->tcpclient.SendTarget(((MainActivity)getActivity()).selectedTarget));
         binding.calibrateonoff.setOnClickListener(v->tcpclient.SetCalibration(((Switch)v).isChecked()));
         binding.trackingonoff.setOnClickListener(v->tcpclient.SetTracking(((Switch)v).isChecked()));
         binding.upbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.up));
         binding.downbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.down));
         binding.leftbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.left));
         binding.rightbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.right));
+
     }
 
     @Override

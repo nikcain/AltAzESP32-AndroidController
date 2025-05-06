@@ -19,37 +19,30 @@
             android:text="Select Target"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="40dp" />
 
-        <Switch
-            android:id="@+id/trackingonoff"
+        <TextView
+            android:id="@+id/selectedtargetinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:showText="true"
-            android:text="Tracking"
-            android:textOff="Off"
-            android:textOn="On"
+            android:text="selected target"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp"
             app:layout_constraintEnd_toEndOf="@+id/selecttargetbtn"
-            app:layout_constraintStart_toStartOf="@+id/selecttargetbtn"
+            app:layout_constraintStart_toStartOf="@id/selecttargetbtn"
             app:layout_constraintTop_toBottomOf="@id/selecttargetbtn" />
 
-        <Switch
-            android:id="@+id/calibrateonoff"
+        <TextView
+            android:id="@+id/currenttargetinfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            android:showText="true"
-            android:text="Calibrate"
-            android:textOff="Off"
-            android:textOn="On"
-            app:layout_constraintEnd_toEndOf="@+id/trackingonoff"
-            app:layout_constraintStart_toStartOf="@id/trackingonoff"
-            app:layout_constraintTop_toBottomOf="@id/trackingonoff" />
+            android:text="current target"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/selecttargetbtn"
+            app:layout_constraintStart_toStartOf="@id/selecttargetbtn"
+            app:layout_constraintTop_toBottomOf="@id/selectedtargetinfo" />
 
         <Button
             android:id="@+id/gototargetbtn"
@@ -57,9 +50,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Go To Target"
-            app:layout_constraintEnd_toEndOf="@+id/calibrateonoff"
-            app:layout_constraintStart_toStartOf="@id/calibrateonoff"
-            app:layout_constraintTop_toBottomOf="@id/calibrateonoff" />
+            app:layout_constraintEnd_toEndOf="@+id/selecttargetbtn"
+            app:layout_constraintStart_toStartOf="@id/selecttargetbtn"
+            app:layout_constraintTop_toBottomOf="@id/currenttargetinfo" />
 
         <Button
             android:id="@+id/stopbtn"
@@ -76,7 +69,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
-            android:gravity="center_horizontal"
             android:text="Up"
             app:layout_constraintEnd_toEndOf="@id/stopbtn"
             app:layout_constraintStart_toStartOf="@id/stopbtn"
@@ -96,13 +88,13 @@
             <Button
                 android:id="@+id/leftbtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Left" />
 
             <Button
                 android:id="@+id/rightbtn"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Right" />
         </LinearLayout>
 
@@ -110,11 +102,36 @@
             android:id="@+id/downbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
             android:text="Down"
             app:layout_constraintEnd_toEndOf="@id/upbtn"
             app:layout_constraintStart_toStartOf="@id/upbtn"
             app:layout_constraintTop_toBottomOf="@id/leftrightbtns" />
+
+        <Switch
+            android:id="@+id/trackingonoff"
+            android:layout_width="wrap_content"
+            android:layout_height="56dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Tracking"
+            app:layout_constraintEnd_toEndOf="@+id/downbtn"
+            app:layout_constraintStart_toStartOf="@+id/downbtn"
+            app:layout_constraintTop_toBottomOf="@id/downbtn"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+        <Switch
+            android:id="@+id/calibrateonoff"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="Calibrate"
+            app:layout_constraintEnd_toEndOf="@+id/trackingonoff"
+            app:layout_constraintStart_toStartOf="@id/trackingonoff"
+            app:layout_constraintTop_toBottomOf="@id/trackingonoff"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

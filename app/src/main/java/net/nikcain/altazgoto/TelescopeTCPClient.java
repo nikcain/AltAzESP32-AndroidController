@@ -1,24 +1,22 @@
 package net.nikcain.altazgoto;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.Socket;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class TelescopeTCPClient {
     public static final String LOG_TAG = "TelescopeTCPClient";
-    String addr = "192.168.1.102";
-    int port = 22222;
+    String addr = "http://192.168.1.222";
     enum direction {
         up,
         down,
@@ -28,66 +26,109 @@ public class TelescopeTCPClient {
 
     String SendHTTPPOST(String jsonstring)
     {
-        HttpURLConnection urlConnection = null;
-        try {
-            URL url = new URL(addr);
-            urlConnection = (HttpURLConnection) url.openConnection();
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "SendHTTPPOST: "+ e.getMessage());
-            return "";
-        }
-        try {
-            urlConnection.setRequestMethod("POST");
-            urlConnection.setRequestProperty("Content-Type", "application/json");
-            urlConnection.setRequestProperty("Accept", "application/json");
-            urlConnection.setDoOutput(true);
-            urlConnection.setChunkedStreamingMode(0);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
 
-            try(OutputStream os = urlConnection.getOutputStream()) {
-                byte[] input = jsonstring.getBytes(StandardCharsets.UTF_8);
-                os.write(input, 0, input.length);
-            }
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
 
-            try(BufferedReader br = new BufferedReader(
-                    new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
-                StringBuilder response = new StringBuilder();
-                String responseLine = null;
-                while ((responseLine = br.readLine()) != null) {
-                    response.append(responseLine.trim());
+                //Background work here
+
+                HttpURLConnection urlConnection = null;
+                try {
+                    URL url = new URL(addr);
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                } catch (IOException e) {
+                    Log.e(LOG_TAG, "SendHTTPPOST: "+ e.getMessage());
+                    return;// "";
                 }
-                return response.toString();
+                try {
+                    urlConnection.setRequestMethod("POST");
+                    urlConnection.setRequestProperty("Content-Type", "application/json");
+                    urlConnection.setRequestProperty("Accept", "application/json");
+                    urlConnection.setDoOutput(true);
+                    urlConnection.setRequestProperty("Accept-Encoding", "identity");
+
+                    try(OutputStream os = urlConnection.getOutputStream()) {
+                        byte[] input = jsonstring.getBytes(StandardCharsets.UTF_8);
+                        os.write(input, 0, input.length);
+                    } catch (IOException e) {
+                        Log.e(LOG_TAG, "get output stream: "+ e.getMessage());
+                        throw new RuntimeException(e);
+                    }
+
+                    try(BufferedReader br = new BufferedReader(
+                            new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
+                        StringBuilder response = new StringBuilder();
+                        String responseLine = null;
+                        while ((responseLine = br.readLine()) != null) {
+                            response.append(responseLine.trim());
+                        }
+                        Log.i(LOG_TAG, response.toString());
+                        return;// response.toString();
+                    }
+                }
+                catch(IOException i)
+                {
+                    Log.e(LOG_TAG, "SendHTTPPOST: "+ i.getMessage());
+                } catch (RuntimeException e) {
+                    Log.e(LOG_TAG, "runtime: "+ e.getMessage());
+                    throw new RuntimeException(e);
+                }
+                finally{
+                    urlConnection.disconnect();
+                }
+           //     handler.post(new Runnable() {
+            //        @Override
+            //        public void run() {
+            //            //UI Thread work here
+            //        }
+            //    });
             }
-        }
-        catch(IOException i)
-        {
-            Log.e(LOG_TAG, "SendHTTPPOST: "+ i.getMessage());
-        }
-        finally{
-            urlConnection.disconnect();
-        }
+        });
+
         return "";
     }
     void SendTarget(targets target)
     {
-        String js = "{\"DEC\": "+String.valueOf(target.dec)+",\"RS\": "+String.valueOf(target.ra)+"}";
+        String js = "{\"messagetype\": \"SetTarget\",\"message\": ";
+        js += "{\"DEC\": "+ target.dec +",\"RA\": "+ target.ra +"}";
+        js += "}";
         String resp = SendHTTPPOST(js);
     }
 
     void SetCalibration(boolean setting)
     {
-        String js = "{\"Calibration\": "+ setting +"}";
+        String js = "{\"messagetype\": \"SetCalibration\",\"message\": ";
+        js += "{\"Calibration\": "+ setting +"}";
+        js += "}";
         String resp = SendHTTPPOST(js);
     }
 
     void SetTracking(boolean tracking)
     {
-        String js = "{\"Tracking\": "+ tracking +"}";
+        String js = "{\"messagetype\": \"SetTracking\",\"message\": ";
+        js += "{\"Tracking\": "+ tracking +"}";
+        js += "}";
         String resp = SendHTTPPOST(js);
     }
 
+    void Reset()
+    {
+        String js = "{\"messagetype\": \"Reset\"}";
+        String resp = SendHTTPPOST(js);
+    }
+
+    void Stop()
+    {
+        String js = "{\"messagetype\": \"Stop\"}";
+        String resp = SendHTTPPOST(js);
+    }
     void Move(direction dir)
     {
-        String js="{\"Move\": \"";
+        String js = "{\"messagetype\": \"Move\",\"message\": ";
+        js += "{\"Move\": \"";
         switch(dir)
         {
             case up:
@@ -104,5 +145,7 @@ public class TelescopeTCPClient {
                 break;
         }
         js += "\"}";
+        js += "}";
+        String resp = SendHTTPPOST(js);
     }
 }
