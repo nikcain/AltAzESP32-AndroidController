@@ -17,6 +17,8 @@ import java.util.concurrent.Executors;
 public class TelescopeTCPClient {
     public static final String LOG_TAG = "TelescopeTCPClient";
     String addr = "http://192.168.1.222";
+
+    String status = "";
     enum direction {
         up,
         down,
@@ -24,7 +26,7 @@ public class TelescopeTCPClient {
         right
     }
 
-    String SendHTTPPOST(String jsonstring)
+    void SendHTTPPOST(String jsonstring)
     {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Handler handler = new Handler(Looper.getMainLooper());
@@ -33,6 +35,7 @@ public class TelescopeTCPClient {
             @Override
             public void run() {
 
+                StringBuilder response = new StringBuilder();
                 //Background work here
 
                 HttpURLConnection urlConnection = null;
@@ -60,13 +63,11 @@ public class TelescopeTCPClient {
 
                     try(BufferedReader br = new BufferedReader(
                             new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
-                        StringBuilder response = new StringBuilder();
                         String responseLine = null;
                         while ((responseLine = br.readLine()) != null) {
                             response.append(responseLine.trim());
                         }
                         Log.i(LOG_TAG, response.toString());
-                        return;// response.toString();
                     }
                 }
                 catch(IOException i)
@@ -79,23 +80,23 @@ public class TelescopeTCPClient {
                 finally{
                     urlConnection.disconnect();
                 }
-           //     handler.post(new Runnable() {
-            //        @Override
-            //        public void run() {
-            //            //UI Thread work here
-            //        }
-            //    });
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //UI Thread work here
+                        status = response.toString();
+                    }
+                });
             }
         });
 
-        return "";
     }
     void SendTarget(targets target)
     {
         String js = "{\"messagetype\": \"SetTarget\",\"message\": ";
         js += "{\"DEC\": "+ target.dec +",\"RA\": "+ target.ra +"}";
         js += "}";
-        String resp = SendHTTPPOST(js);
+        SendHTTPPOST(js);
     }
 
     void SetCalibration(boolean setting)
@@ -103,7 +104,7 @@ public class TelescopeTCPClient {
         String js = "{\"messagetype\": \"SetCalibration\",\"message\": ";
         js += "{\"Calibration\": "+ setting +"}";
         js += "}";
-        String resp = SendHTTPPOST(js);
+        SendHTTPPOST(js);
     }
 
     void SetTracking(boolean tracking)
@@ -111,19 +112,19 @@ public class TelescopeTCPClient {
         String js = "{\"messagetype\": \"SetTracking\",\"message\": ";
         js += "{\"Tracking\": "+ tracking +"}";
         js += "}";
-        String resp = SendHTTPPOST(js);
+        SendHTTPPOST(js);
     }
 
     void Reset()
     {
         String js = "{\"messagetype\": \"Reset\"}";
-        String resp = SendHTTPPOST(js);
+        SendHTTPPOST(js);
     }
 
     void Stop()
     {
         String js = "{\"messagetype\": \"Stop\"}";
-        String resp = SendHTTPPOST(js);
+        SendHTTPPOST(js);
     }
     void Move(direction dir)
     {
@@ -146,6 +147,6 @@ public class TelescopeTCPClient {
         }
         js += "\"}";
         js += "}";
-        String resp = SendHTTPPOST(js);
+        SendHTTPPOST(js);
     }
 }

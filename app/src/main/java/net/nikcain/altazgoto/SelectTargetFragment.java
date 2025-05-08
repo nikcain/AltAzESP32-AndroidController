@@ -34,6 +34,7 @@ public class SelectTargetFragment extends Fragment {
             Bundle savedInstanceState
     ) {
         binding = FragmentSelecttargetBinding.inflate(inflater, container, false);
+
         return binding.getRoot();
     }
 
