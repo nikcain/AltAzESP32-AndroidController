@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,13 +29,15 @@ public class SelectTargetFragment extends Fragment {
     private FragmentSelecttargetBinding binding;
     private AppDatabase appDatabase;
 
+
     @Override
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-        binding = FragmentSelecttargetBinding.inflate(inflater, container, false);
 
+        binding = FragmentSelecttargetBinding.inflate(inflater, container, false);
+        binding.setAppviewmodel(((MainActivity)getActivity()).model);
         return binding.getRoot();
     }
 
@@ -61,6 +64,15 @@ public class SelectTargetFragment extends Fragment {
         List<targets> items = Collections.emptyList();
         CustomAdapter customAdapter = new CustomAdapter(items);
         recyclerView.setAdapter(customAdapter);
+        customAdapter.setOnClickListener(new CustomAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, targets selectedItem) {
+                AppViewModel avm = ((MainActivity)getActivity()).model;
+                avm.setSelectedTarget(selectedItem);
+                NavHostFragment.findNavController(SelectTargetFragment.this)
+                        .navigate(R.id.action_FirstFragment_to_SecondFragment);
+            }
+        });
 
         binding.btnSearchDB.setOnClickListener(new View.OnClickListener() {
             @Override
