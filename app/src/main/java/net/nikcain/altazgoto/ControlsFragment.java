@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -75,6 +76,8 @@ public class ControlsFragment extends Fragment {
                         Log.i(LOG_TAG, "connection bad");
                         img.setImageResource(android.R.drawable.checkbox_off_background);
                     }
+                    TextView tv = (TextView)vw.findViewById(R.id.LogText);
+                    tv.setText(avm.getDebugText().getValue());
                 }
                 tcpclient.GetStatus();
                 if (vw != null) {

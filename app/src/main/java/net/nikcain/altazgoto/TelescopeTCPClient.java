@@ -16,12 +16,13 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class TelescopeTCPClient {
     public static final String LOG_TAG = "TelescopeTCPClient";
-    String addr = "http://192.168.1.33";
+    String addr = "http://192.168.4.1";
     boolean isConnected = false;
     String status = "";
     AppViewModel model;
@@ -55,7 +56,7 @@ public class TelescopeTCPClient {
                     urlConnection = (HttpURLConnection) url.openConnection();
 
                 } catch (IOException e) {
-                    Log.e(LOG_TAG, "SendHTTPPOST: "+ e.getMessage());
+                    Log.e(LOG_TAG, "SendHTTPPOST1: "+ e.getMessage());
                     isConnected = false;
                     return;// "";
                 }
@@ -88,7 +89,7 @@ public class TelescopeTCPClient {
                 }
                 catch(IOException i)
                 {
-                    Log.e(LOG_TAG, "SendHTTPPOST: "+ i.getMessage());
+                    Log.e(LOG_TAG, "SendHTTPPOST2: "+ i.getMessage());
                     //isConnected = false;
                 } catch (RuntimeException e) {
                     Log.e(LOG_TAG, "runtime: "+ e.getMessage());
@@ -186,13 +187,15 @@ public class TelescopeTCPClient {
 
     void GetStatus()
     {
+        TimeZone timeZone = TimeZone.getTimeZone("UTC");
+
         String js = "{";
-        js += "\"year\":" + Calendar.getInstance().get(Calendar.YEAR) + ",";
-        js += "\"month\":" + Calendar.getInstance().get(Calendar.MONTH) + ",";
-        js += "\"day\":" + Calendar.getInstance().get(Calendar.DAY_OF_MONTH) + ",";
-        js += "\"hour\":" + Calendar.getInstance().get(Calendar.HOUR_OF_DAY) + ",";
-        js += "\"minutes\":" + Calendar.getInstance().get(Calendar.MINUTE) + ",";
-        js += "\"seconds\":" + Calendar.getInstance().get(Calendar.SECOND) + "}";
+        js += "\"year\":" + Calendar.getInstance(timeZone).get(Calendar.YEAR) + ",";
+        js += "\"month\":" + (1 + Calendar.getInstance(timeZone).get(Calendar.MONTH)) + ",";
+        js += "\"day\":" + Calendar.getInstance(timeZone).get(Calendar.DAY_OF_MONTH) + ",";
+        js += "\"hour\":" + Calendar.getInstance(timeZone).get(Calendar.HOUR_OF_DAY) + ",";
+        js += "\"minutes\":" + Calendar.getInstance(timeZone).get(Calendar.MINUTE) + ",";
+        js += "\"seconds\":" + Calendar.getInstance(timeZone).get(Calendar.SECOND) + "}";
         SendHTTPPOST(js);
     }
 }

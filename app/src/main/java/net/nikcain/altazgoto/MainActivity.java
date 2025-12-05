@@ -22,8 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     AppViewModel model;
-
-
+    private TelescopeTCPServer tcpserver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +35,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.setAppviewmodel(model);
 
-
         setSupportActionBar(binding.toolbar);
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        tcpserver = new TelescopeTCPServer(model);
+        tcpserver.init();
 
     }
 

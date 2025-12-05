@@ -12,7 +12,10 @@ public class AppViewModel extends ViewModel {
                                                     true,
                                                     new targets(),
                                                     new targets(),
-                                                    0,0));
+                                            0,
+                                            0,
+                                                    new String(""))
+                                                    );
     public LiveData<AppDataModel> getUiState() {
         return uiState;
     }
@@ -28,6 +31,10 @@ public class AppViewModel extends ViewModel {
         AppDataModel a = uiState.getValue();
         a.selectedTarget = t;
     }
+    public void setDebugText(String txt) {
+        AppDataModel a = uiState.getValue();
+        a.debugText = txt;
+    }
 
     public MutableLiveData<String> getTargetText(targets target) {
         String ret = target.name + " RA:" + target.ra + " dec:" + target.dec;
@@ -39,5 +46,8 @@ public class AppViewModel extends ViewModel {
     public MutableLiveData<String> getCurrentTargetText() {
         String ret = "alt: " + uiState.getValue().currentRA + " az: " + uiState.getValue().currentDEC;
         return getTargetText(uiState.getValue().currentTarget);
+    }
+    public MutableLiveData<String> getDebugText() {
+        return new MutableLiveData<String>(uiState.getValue().debugText);
     }
 }

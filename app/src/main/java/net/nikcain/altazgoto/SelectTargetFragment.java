@@ -50,14 +50,13 @@ public class SelectTargetFragment extends Fragment {
         assert ctx != null;
 
         appDatabase = Room.databaseBuilder(ctx, AppDatabase.class, "skyObjects")
-                .createFromAsset("skyObjects2.db")
+                .createFromAsset("skyObjects3.db")
                 .build();
 
         binding.buttonFirst.setOnClickListener(v ->
                 NavHostFragment.findNavController(SelectTargetFragment.this)
                         .navigate(R.id.action_FirstFragment_to_SecondFragment)
         );
-
 
         RecyclerView recyclerView = getView().findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(ctx));

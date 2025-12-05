@@ -7,18 +7,21 @@ public class AppDataModel {
     public double currentDEC;
     public targets selectedTarget;
     public targets currentTarget;
+    public String debugText;
 
     public AppDataModel(boolean tracking,
                         boolean calibrating,
                         targets selectedTarget,
                         targets currentTarget,
                         double currentRA,
-                        double currentDEC) {
+                        double currentDEC,
+                        String dbgTxt) {
         this.tracking = tracking;
         this.calibrating = calibrating;
         this.currentRA = currentRA;
         this.currentDEC = currentDEC;
         this.selectedTarget = selectedTarget;
         this.currentTarget = currentTarget;
+        this.debugText = dbgTxt;
     }
 }

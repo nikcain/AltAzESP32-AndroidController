@@ -9,11 +9,11 @@ public class targets {
     @PrimaryKey
     public int id;
 
-    @ColumnInfo(name = "ra")
-    public double ra;
-
     @ColumnInfo(name = "dec")
     public double dec;
+
+    @ColumnInfo(name = "ra")
+    public double ra;
 
     @ColumnInfo(name = "name")
     public String name;
