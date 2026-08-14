@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -53,6 +54,22 @@ public class ControlsFragment extends Fragment {
         );
 
         binding.gototargetbtn.setOnClickListener(v->tcpclient.SendTarget(avm.getSelectedTarget().getValue()));
+        binding.gotoAltAzbtn.setOnClickListener( new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                View vw = getView();
+                EditText alt = vw.findViewById(R.id.alt_value);
+                EditText az = vw.findViewById(R.id.az_value);
+
+                tcpclient.SendAltAzTarget(alt.getText().toString(), az.getText().toString());
+            }
+
+
+        });
+
+
+
         binding.calibrateonoff.setOnClickListener(v->tcpclient.SetCalibration(((Switch)v).isChecked()));
         binding.trackingonoff.setOnClickListener(v->tcpclient.SetTracking(((Switch)v).isChecked()));
         binding.upbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.up));

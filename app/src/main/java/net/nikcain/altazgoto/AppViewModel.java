@@ -9,7 +9,7 @@ public class AppViewModel extends ViewModel {
     public final MutableLiveData<String> testName = new MutableLiveData("hello");
     private final MutableLiveData<AppDataModel> uiState =
             new MutableLiveData(new AppDataModel(   false,
-                                                    true,
+                                                    false,
                                                     new targets(),
                                                     new targets(),
                                             0,

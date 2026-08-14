@@ -54,11 +54,11 @@ public class TelescopeTCPClient {
                 try {
                     URL url = new URL(addr);
                     urlConnection = (HttpURLConnection) url.openConnection();
-
                 } catch (IOException e) {
                     Log.e(LOG_TAG, "SendHTTPPOST1: "+ e.getMessage());
                     isConnected = false;
-                    return;// "";
+                    model.setDebugText("no connection");
+                    return;
                 }
                 try {
                     urlConnection.setRequestMethod("POST");
@@ -67,16 +67,18 @@ public class TelescopeTCPClient {
                     urlConnection.setDoOutput(true);
                     urlConnection.setRequestProperty("Accept-Encoding", "identity");
 
+                    urlConnection.connect();
                     try(OutputStream os = urlConnection.getOutputStream()) {
                         byte[] input = jsonstring.getBytes(StandardCharsets.UTF_8);
                         os.write(input, 0, input.length);
                     } catch (IOException e) {
                         isConnected = false;
                         Log.e(LOG_TAG, "get output stream: "+ e.getMessage());
+                        model.setDebugText("error on send command");
                         throw new RuntimeException(e);
                     }
 
-                    isConnected = true;
+                    if (urlConnection.getResponseCode() == 200) { isConnected = true; }
                     try(BufferedReader br = new BufferedReader(
                             new InputStreamReader(urlConnection.getInputStream(), StandardCharsets.UTF_8))) {
                         String responseLine = null;
@@ -85,14 +87,15 @@ public class TelescopeTCPClient {
                         }
                         Log.i(LOG_TAG, response.toString());
                     }
-                    isConnected = true;
                 }
                 catch(IOException i)
                 {
                     Log.e(LOG_TAG, "SendHTTPPOST2: "+ i.getMessage());
+                    //model.setDebugText("SendHTTPPOST2: "+ i.getMessage());
                     //isConnected = false;
                 } catch (RuntimeException e) {
                     Log.e(LOG_TAG, "runtime: "+ e.getMessage());
+                    model.setDebugText("runtime: "+ e.getMessage());
                     isConnected = false;
                     //throw new RuntimeException(e);
                     return;
@@ -132,7 +135,13 @@ public class TelescopeTCPClient {
         js += "}";
         SendHTTPPOST(js);
     }
-
+    void SendAltAzTarget(String alt, String az)
+    {
+        String js = "{\"messageType\": \"SetAltAz\",\"message\": ";
+        js += "{\"ALT\": "+ alt +",\"AZ\": "+ az +"}";
+        js += "}";
+        SendHTTPPOST(js);
+    }
     void SetCalibration(boolean setting)
     {
         String js = "{\"messageType\": \"SetCalibration\",\"message\": ";

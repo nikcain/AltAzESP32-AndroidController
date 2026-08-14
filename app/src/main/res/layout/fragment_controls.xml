@@ -21,9 +21,10 @@
             android:id="@+id/LogText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#D3B9B9"
+            android:background="#FFFFFF"
             android:lines="3"
             android:text="@{appviewmodel.getDebugText()}"
+            android:textColor="#020001"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="16dp"
             tools:text="sasuishfudisfhdsuf dufhsdi udhf sdufhui dufh sd fsduh sdihf sdifhs" />
@@ -76,15 +77,55 @@
             app:layout_constraintStart_toStartOf="@id/selecttargetbtn"
             app:layout_constraintTop_toBottomOf="@id/currenttargetinfo" />
 
+
+        <LinearLayout
+            android:id="@+id/altazselect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            app:layout_constraintEnd_toEndOf="@+id/gototargetbtn"
+            app:layout_constraintStart_toStartOf="@id/gototargetbtn"
+            app:layout_constraintTop_toBottomOf="@id/gototargetbtn">
+
+            <EditText
+                android:id="@+id/az_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Az (0)"
+                android:inputType="numberDecimal" />
+
+            <EditText
+                android:id="@+id/alt_value"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Alt (90)"
+                android:inputType="numberDecimal" />
+            <Button
+                android:id="@+id/gotoAltAzbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Go To AltAz"
+                app:layout_constraintEnd_toEndOf="@+id/selecttargetbtn"
+                app:layout_constraintStart_toStartOf="@id/selecttargetbtn"
+                app:layout_constraintTop_toBottomOf="@id/currenttargetinfo" />
+
+        </LinearLayout>
+
         <Button
             android:id="@+id/stopbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
             android:text="Stop"
-            app:layout_constraintEnd_toEndOf="@+id/gototargetbtn"
-            app:layout_constraintStart_toStartOf="@id/gototargetbtn"
-            app:layout_constraintTop_toBottomOf="@id/gototargetbtn" />
+            app:layout_constraintEnd_toEndOf="@+id/altazselect"
+            app:layout_constraintStart_toStartOf="@id/altazselect"
+            app:layout_constraintTop_toBottomOf="@id/altazselect" />
 
         <Button
             android:id="@+id/upbtn"
@@ -147,6 +188,13 @@
                 android:text="Tracking"
                 tools:ignore="UseSwitchCompatOrMaterialXml" />
 
+            <ImageView
+                android:id="@+id/trackingIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@android:drawable/btn_star_big_off" />
+
 
         </LinearLayout>
 
@@ -174,12 +222,6 @@
                 android:layout_weight="1"
                 app:srcCompat="@android:drawable/btn_star_big_off" />
 
-            <ImageView
-                android:id="@+id/trackingIndicator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/btn_star_big_off" />
         </LinearLayout>
 
 
