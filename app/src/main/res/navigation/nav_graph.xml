@@ -9,7 +9,7 @@
         android:id="@+id/SelectTargetFragment"
         android:name="net.nikcain.altazgoto.SelectTargetFragment"
         android:label="@string/control_fragment_label"
-        tools:layout="@layout/fragment_selecttarget">
+        tools:layout="@layout/selecttarget_fragment">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
@@ -19,10 +19,22 @@
         android:id="@+id/ControlFragment"
         android:name="net.nikcain.altazgoto.ControlsFragment"
         android:label="@string/select_target_fragment_label"
-        tools:layout="@layout/fragment_controls">
+        tools:layout="@layout/controls_fragment">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/SelectTargetFragment" />
+        <action
+            android:id="@+id/action_controls_to_alignment"
+            app:destination="@id/alignmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/alignmentFragment"
+        android:name="net.nikcain.altazgoto.AlignmentFragment"
+        android:label="alignment_fragment"
+        tools:layout="@layout/alignment_fragment" >
+        <action
+            android:id="@+id/action_alignmentFragment_to_ControlFragment"
+            app:destination="@id/ControlFragment" />
     </fragment>
 </navigation>

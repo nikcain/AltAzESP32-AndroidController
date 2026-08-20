@@ -19,14 +19,14 @@ import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 
-import net.nikcain.altazgoto.databinding.FragmentSelecttargetBinding;
+import net.nikcain.altazgoto.databinding.SelecttargetFragmentBinding;
 
 import java.util.Collections;
 import java.util.List;
 
 public class SelectTargetFragment extends Fragment {
 
-    private FragmentSelecttargetBinding binding;
+    private SelecttargetFragmentBinding binding;
     private AppDatabase appDatabase;
 
 
@@ -36,7 +36,7 @@ public class SelectTargetFragment extends Fragment {
             Bundle savedInstanceState
     ) {
 
-        binding = FragmentSelecttargetBinding.inflate(inflater, container, false);
+        binding = SelecttargetFragmentBinding.inflate(inflater, container, false);
         binding.setAppviewmodel(((MainActivity)getActivity()).model);
         return binding.getRoot();
     }
@@ -50,7 +50,7 @@ public class SelectTargetFragment extends Fragment {
         assert ctx != null;
 
         appDatabase = Room.databaseBuilder(ctx, AppDatabase.class, "skyObjects")
-                .createFromAsset("skyObjects3.db")
+                .createFromAsset("skyObjects5.db")
                 .build();
 
         binding.buttonFirst.setOnClickListener(v ->

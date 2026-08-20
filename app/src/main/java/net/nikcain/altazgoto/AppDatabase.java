@@ -3,7 +3,7 @@ package net.nikcain.altazgoto;
 import androidx.room.Database;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {targets.class}, version = 1)
+@Database(entities = {targets.class, calibrationstars.class}, version = 2, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract TargetsDAO targetsDao();
 }

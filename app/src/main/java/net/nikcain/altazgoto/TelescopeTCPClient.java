@@ -107,16 +107,14 @@ public class TelescopeTCPClient {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        //UI Thread work here
-                        //String statusjson = "{\"Tracking\":false,\"Calibrating\":false,\"DateTimeSet\":true, \"targetRA\":1.234,\"targetDEC\":5.6789,\"currentRA\":0.1111,\"currentDEC\":0.2222}";
                         status = response.toString();
                         try {
                             if (!status.equals("")) {
                                 JSONObject jObject = new JSONObject(status);
                                 model.getUiState().getValue().tracking = jObject.getBoolean("Tracking");
-                                model.getUiState().getValue().calibrating = jObject.getBoolean("Calibrating");
-                                model.getUiState().getValue().currentRA = jObject.getDouble("currentRA");
-                                model.getUiState().getValue().currentDEC = jObject.getDouble("currentDEC");
+                                model.getUiState().getValue().currentAlt = jObject.getDouble("currentAlt");
+                                model.getUiState().getValue().currentAz = jObject.getDouble("currentAz");
+
                             }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
@@ -128,6 +126,14 @@ public class TelescopeTCPClient {
         });
 
     }
+    void SendTarget(calibrationstars target)
+    {
+        String js = "{\"messageType\": \"SetTarget\",\"message\": ";
+        js += "{\"DEC\": "+ target.dec +",\"RA\": "+ target.ra +"}";
+        js += "}";
+        SendHTTPPOST(js);
+    }
+
     void SendTarget(targets target)
     {
         String js = "{\"messageType\": \"SetTarget\",\"message\": ";
@@ -135,17 +141,10 @@ public class TelescopeTCPClient {
         js += "}";
         SendHTTPPOST(js);
     }
-    void SendAltAzTarget(String alt, String az)
+    void SendAltAzTarget(double alt, double az)
     {
         String js = "{\"messageType\": \"SetAltAz\",\"message\": ";
         js += "{\"ALT\": "+ alt +",\"AZ\": "+ az +"}";
-        js += "}";
-        SendHTTPPOST(js);
-    }
-    void SetCalibration(boolean setting)
-    {
-        String js = "{\"messageType\": \"SetCalibration\",\"message\": ";
-        js += "{\"Calibration\": "+ setting +"}";
         js += "}";
         SendHTTPPOST(js);
     }

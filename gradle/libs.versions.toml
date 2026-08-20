@@ -1,6 +1,7 @@
 [versions]
 agp = "9.2.1"
 cardview = "1.0.0"
+commonsSuncalc = "3.11"
 concurrentFutures = "1.2.0"
 dagger = "version-number"
 guava = "31.0.1-android"
@@ -20,6 +21,7 @@ roomGuava = "2.7.1"
 
 [libraries]
 cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
+commons-suncalc = { module = "org.shredzone.commons:commons-suncalc", version.ref = "commonsSuncalc" }
 concurrent-futures = { module = "androidx.concurrent:concurrent-futures", version.ref = "concurrentFutures" }
 dagger = { module = "com.google.dagger:dagger", version = "2.56.2" }
 dagger-compiler = { module = "com.google.dagger:dagger-compiler", version = "2.56.2" }

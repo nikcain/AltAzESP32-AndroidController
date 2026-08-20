@@ -15,5 +15,8 @@ public interface TargetsDAO {
 
     @Query("select * from targets where searchText like '%' || :searchterm || '%'")
     public ListenableFuture<List<targets>> findTarget(String searchterm);
+
+    @Query("select * from calibrationstars")
+    public ListenableFuture<List<calibrationstars>> getCalibrationStars();
 }
 

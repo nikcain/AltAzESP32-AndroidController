@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     AppViewModel model;
-    private TelescopeTCPServer tcpserver;
+    AdvancedTelescopeAligner AlignmentMgr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
 
         model = new ViewModelProvider(this).get(AppViewModel.class);
+        model.getUiState().getValue().calibrationPoints.add(new CalibratedStar());
+        model.getUiState().getValue().calibrationPoints.add(new CalibratedStar());
+        model.getUiState().getValue().calibrationPoints.add(new CalibratedStar());
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -41,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
 
-        tcpserver = new TelescopeTCPServer(model);
-        tcpserver.init();
+        //tcpserver = new TelescopeTCPServer(model);
+        //tcpserver.init();
 
     }
 
