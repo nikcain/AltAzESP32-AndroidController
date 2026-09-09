@@ -2,23 +2,12 @@ package net.nikcain.altazgoto;
 
 // Written by Google AI
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Formatter;
 
 public class AdvancedTelescopeAligner {
 
-    // Calibration star record holding both telescope encoder data and celestial truth
-    public static class AlignmentStar {
-        double rawAlt, rawAz;   // Degrees
-        double trueAlt, trueAz; // Degrees
-
-        public AlignmentStar(double rawAlt, double rawAz, double trueAlt, double trueAz) {
-            this.rawAlt = rawAlt;   this.rawAz = rawAz;
-            this.trueAlt = trueAlt; this.trueAz = trueAz;
-        }
-    }
-
-    private final List<AlignmentStar> stars = new ArrayList<>();
+    //private final List<AlignmentStar> stars = new ArrayList<>();
+    public AlignmentStar[]  stars = new AlignmentStar[3];
     private final double[][] T = new double[3][3]; // Least-squares optimized matrix
     
     // Mechanical error parameters (radians)
@@ -26,13 +15,31 @@ public class AdvancedTelescopeAligner {
     private double epsilonY = 0.0; // Collimation offset
     private boolean isCalibrated = false;
 
-    public void addAlignmentStar(double rawAlt, double rawAz, double trueAlt, double trueAz) {
-        stars.add(new AlignmentStar(rawAlt, rawAz, trueAlt, trueAz));
+    public void addAlignmentStar(calibrationstars star, int starnum, double rawAlt, double rawAz, double trueAlt, double trueAz) {
+        //stars.add(new AlignmentStar(rawAlt, rawAz, trueAlt, trueAz));
+        stars[starnum] = new AlignmentStar(rawAlt, rawAz, trueAlt, trueAz);
+        stars[starnum].baseStar = star;
+        stars[starnum].set = true;
         this.isCalibrated = false; // Require recalculation
+    }
+    public boolean isStarSet(int starnum)
+    {
+        if (stars[starnum] == null) return false;
+        return stars[starnum].set;
+    }
+    public String getCalibrationValues() {
+        StringBuilder ret = new StringBuilder();
+        // Send all output to the Appendable object sb
+        Formatter formatter = new Formatter(ret);
+        for (AlignmentStar star:stars) {
+            formatter.format("%1$.2f %2$.2f : %3$.2f %4$.2f\n", star.rawAlt, star.rawAz, star.trueAlt, star.trueAz);
+        }
+        return ret.toString();
     }
 
     public void clearStars() {
-        stars.clear();
+        //stars.clear();
+        stars = new AlignmentStar[3];
         this.isCalibrated = false;
     }
 
@@ -46,25 +53,30 @@ public class AdvancedTelescopeAligner {
      * applies the correction to all points, and resolves the 3x3 transform via Least-Squares.
      */
     public void calibrate() {
-        if (stars.size() < 2) {
+        //if (stars.size() < 2) {
+        if (!(stars[0].set && stars[1].set && stars[2].set)) {
             throw new IllegalStateException("At least 2 stars are required for a baseline transformation.");
         }
 
+        estimateMechanicalErrors();
+
         // Step 1: Estimate mechanical axis alignment errors (Requires 3+ stars for optimal results)
-        if (stars.size() >= 3) {
+        // leaving this code in if more than 3 stars is more accurate, but I doubt I'll use it
+        /*if (stars.size() >= 3) {
             estimateMechanicalErrors();
-        } else {
+        } else
+        {
             this.epsilonX = 0.0;
             this.epsilonY = 0.0;
-        }
+        }*/
 
         // Step 2: Build the Direction Cosine data arrays M and N
-        int K = stars.size();
+        int K = 3;// stars.size();
         double[][] M = new double[3][K];
         double[][] N = new double[3][K];
-
-        for (int i = 0; i < K; i++) {
-            AlignmentStar star = stars.get(i);
+        int i = 0;
+        for (AlignmentStar star: stars) {// (int i = 0; i < K; i++) {
+            //AlignmentStar star = stars[i];
 
             // Warp raw inputs to strip out mechanical errors first
             double[] mechCorrectedRaw = applyMechanicalCorrection(star.rawAlt, star.rawAz);
@@ -82,6 +94,7 @@ public class AdvancedTelescopeAligner {
             N[0][i] = Math.cos(tAltRad) * Math.cos(tAzRad);
             N[1][i] = Math.cos(tAltRad) * Math.sin(tAzRad);
             N[2][i] = Math.sin(tAltRad);
+            i++;
         }
 
         // Step 3: Compute the Least-Squares Pseudoinverse Matrix Solution: T = N * M^T * (M * M^T)^-1
@@ -148,7 +161,6 @@ public class AdvancedTelescopeAligner {
     private void estimateMechanicalErrors() {
         double sumAltErr = 0;
         double sumCosAz = 0;
-        int count = stars.size();
 
         for (AlignmentStar star : stars) {
             double rAlt = Math.toRadians(star.rawAlt);

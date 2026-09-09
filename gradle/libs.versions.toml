@@ -1,5 +1,5 @@
 [versions]
-agp = "9.2.1"
+agp = "9.3.2"
 cardview = "1.0.0"
 commonsSuncalc = "3.11"
 concurrentFutures = "1.2.0"

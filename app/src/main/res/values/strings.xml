@@ -4,10 +4,30 @@
     <!-- Strings used for fragments for navigation -->
     <string name="control_fragment_label">Control</string>
     <string name="select_target_fragment_label">Select Target</string>
+    <string name="movement_fragment_label">Movement</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
     <string name="element_text">elementtext</string>
-    <string name="alignment_btn_text">%1$s - %2$s</string>
+    <string name="alignment_btn_text">%1$s-%2$s %3$.2f %4$.2f</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="select_target">Select Target</string>
+    <string name="goto_target">Go To Target</string>
+    <string name="az_hint">Az (0)</string>
+    <string name="alt_hint">Alt (90)</string>
+    <string name="goto_altaz">Go To AltAz</string>
+    <string name="align">Align</string>
+    <string name="movement">Movement</string>
+    <string name="stop">Stop</string>
+    <string name="tracking">Tracking</string>
+    <string name="connected_indicator_desc">Connected Indicator</string>
+    <string name="tracking_indicator_desc">Tracking Indicator</string>
+    <string name="up_lot_desc">Up Lot</string>
+    <string name="up_desc">Up</string>
+    <string name="left_lot_desc">Left Lot</string>
+    <string name="left_desc">Left</string>
+    <string name="right_desc">Right</string>
+    <string name="right_lot_desc">Right Lot</string>
+    <string name="down_desc">Down</string>
+    <string name="down_lot_desc">Down Lot</string>
 </resources>

@@ -16,8 +16,8 @@ public class AppViewModel extends ViewModel {
                                             0,
                                             0,
                                                     new String(""),
-                                                    new ArrayList<CalibratedStar>(),
-                                                    new boolean[3]
+                                                    new boolean[3],
+                                                    new ArrayList<>()
                                                     ));
     public LiveData<AppDataModel> getUiState() {
         return uiState;
@@ -50,5 +50,13 @@ public class AppViewModel extends ViewModel {
 
     public MutableLiveData<String> getDebugText() {
         return new MutableLiveData<>(uiState.getValue().debugText);
+    }
+
+    public void setCalibrationPointSet(int index, boolean set) {
+        AppDataModel a = uiState.getValue();
+        if (a != null && index >= 0 && index < a.calibrationPointsSet.length) {
+            a.calibrationPointsSet[index] = set;
+            uiState.setValue(a);
+        }
     }
 }

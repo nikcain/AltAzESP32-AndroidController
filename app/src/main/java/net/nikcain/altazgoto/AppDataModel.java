@@ -1,5 +1,6 @@
 package net.nikcain.altazgoto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AppDataModel {
@@ -9,8 +10,8 @@ public class AppDataModel {
     public targets selectedTarget;
     public targets currentTarget;
     public String debugText;
-    public List<CalibratedStar> calibrationPoints;
     public boolean [] calibrationPointsSet;
+    public List<AlignmentStar> chosen;
 
     public AppDataModel(boolean tracking,
                         targets selectedTarget,
@@ -18,15 +19,15 @@ public class AppDataModel {
                         double currentAlt,
                         double currentAz,
                         String dbgTxt,
-                        List<CalibratedStar> calibrationPoints,
-                        boolean[] calibrationPointsSet) {
+                        boolean[] calibrationPointsSet,
+                        List<AlignmentStar> chosen) {
         this.tracking = tracking;
         this.currentAlt = currentAlt;
         this.currentAz = currentAz;
         this.selectedTarget = selectedTarget;
         this.currentTarget = currentTarget;
         this.debugText = dbgTxt;
-        this.calibrationPoints = calibrationPoints;
         this.calibrationPointsSet = calibrationPointsSet;
+        this.chosen = chosen;
     }
 }

@@ -56,6 +56,11 @@ public class ControlsFragment extends Fragment {
                         .navigate(R.id.action_controls_to_alignment)
         );
 
+        binding.movementbtn.setOnClickListener(v ->
+                NavHostFragment.findNavController(ControlsFragment.this)
+                        .navigate(R.id.action_ControlFragment_to_movementFragment)
+        );
+
         binding.gototargetbtn.setOnClickListener(v->tcpclient.SendTarget(avm.getSelectedTarget().getValue()));
         binding.gotoAltAzbtn.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -68,13 +73,7 @@ public class ControlsFragment extends Fragment {
         });
 
         binding.trackingonoff.setOnClickListener(v->tcpclient.SetTracking(((Switch)v).isChecked()));
-        binding.upbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.up));
-        binding.downbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.down));
-        binding.leftbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.left));
-        binding.rightbtn.setOnClickListener(v -> tcpclient.Move(TelescopeTCPClient.direction.right));
         binding.stopbtn.setOnClickListener(v -> tcpclient.Stop());
-        binding.resetbtn.setOnClickListener(v -> tcpclient.Reset());
-
 
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
@@ -83,7 +82,7 @@ public class ControlsFragment extends Fragment {
                 View vw = getView();
                 ImageView img;
                 if (vw != null) {
-                    img = (ImageView) vw.findViewById(R.id.connectedIndicator);
+                    img = vw.findViewById(R.id.connectedIndicator);
                     if (tcpclient.isConnected) {
                         Log.i(LOG_TAG, "connection good");
                         img.setImageResource(android.R.drawable.checkbox_on_background);
@@ -91,12 +90,12 @@ public class ControlsFragment extends Fragment {
                         Log.i(LOG_TAG, "connection bad");
                         img.setImageResource(android.R.drawable.checkbox_off_background);
                     }
-                    TextView tv = (TextView)vw.findViewById(R.id.LogText);
+                    TextView tv = vw.findViewById(R.id.LogText);
                     tv.setText(avm.getDebugText().getValue());
                 }
                 tcpclient.GetStatus();
                 if (vw != null) {
-                    img = (ImageView) vw.findViewById(R.id.trackingIndicator);
+                    img = vw.findViewById(R.id.trackingIndicator);
                     if (avm.getUiState().getValue().tracking) {
                         Log.i(LOG_TAG, "tracking on");
                         img.setImageResource(android.R.drawable.btn_star_big_on);

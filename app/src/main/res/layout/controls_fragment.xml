@@ -21,12 +21,13 @@
             android:id="@+id/LogText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="#FFFFFF"
+            android:background="#000000"
             android:lines="3"
             android:text="@{appviewmodel.getDebugText()}"
-            android:textColor="#020001"
+            android:textColor="@color/night_red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="16dp"
             tools:text="sasuishfudisfhdsuf dufhsdi udhf sdufhui dufh sd fsduh sdihf sdifhs" />
 
         <ImageView
@@ -34,6 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:contentDescription="@string/connected_indicator_desc"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/LogText"
@@ -43,11 +45,10 @@
             android:id="@+id/selecttargetbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Target"
+            android:text="@string/select_target"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="40dp"
-            app:layout_constraintTop_toBottomOf="@id/connectedIndicator"  />
+            app:layout_constraintTop_toBottomOf="@id/connectedIndicator" />
 
         <TextView
             android:id="@+id/selectedtargetinfo"
@@ -72,7 +73,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Go To Target"
+            android:text="@string/goto_target"
             app:layout_constraintEnd_toEndOf="@+id/selecttargetbtn"
             app:layout_constraintStart_toStartOf="@id/selecttargetbtn"
             app:layout_constraintTop_toBottomOf="@id/currenttargetinfo" />
@@ -93,8 +94,9 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:autofillHints="none"
                 android:ems="10"
-                android:hint="Az (0)"
+                android:hint="@string/az_hint"
                 android:inputType="numberDecimal" />
 
             <EditText
@@ -102,22 +104,23 @@
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:autofillHints="none"
                 android:ems="10"
-                android:hint="Alt (90)"
+                android:hint="@string/alt_hint"
                 android:inputType="numberDecimal" />
+
             <Button
                 android:id="@+id/gotoAltAzbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="Go To AltAz"
-                app:layout_constraintEnd_toEndOf="@+id/selecttargetbtn"
-                app:layout_constraintStart_toStartOf="@id/selecttargetbtn"
-                app:layout_constraintTop_toBottomOf="@id/currenttargetinfo" />
+                android:text="@string/goto_altaz" />
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/stopctrls"
+            style="?android:attr/buttonBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -125,91 +128,55 @@
             app:layout_constraintEnd_toEndOf="@+id/altazselect"
             app:layout_constraintStart_toStartOf="@id/altazselect"
             app:layout_constraintTop_toBottomOf="@id/altazselect">
+
             <Button
                 android:id="@+id/alignbtn"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:text="Align" />
+                android:text="@string/align" />
+
+            <Button
+                android:id="@+id/movementbtn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="11dp"
+                android:text="@string/movement" />
+
             <Button
                 android:id="@+id/stopbtn"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:text="Stop" />
-            <Button
-                android:id="@+id/resetbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:text="Reset" />
-    </LinearLayout>
-        <Button
-            android:id="@+id/upbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="11dp"
-            android:text="Up"
-            app:layout_constraintEnd_toEndOf="@id/stopctrls"
-            app:layout_constraintStart_toStartOf="@id/stopctrls"
-            app:layout_constraintTop_toBottomOf="@id/stopctrls" />
-
-        <LinearLayout
-            android:id="@+id/leftrightbtns"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal"
-            app:layout_constraintEnd_toEndOf="@id/stopctrls"
-            app:layout_constraintStart_toStartOf="@id/stopctrls"
-            app:layout_constraintTop_toBottomOf="@id/upbtn"
-            tools:layout_editor_absoluteX="16dp">
-
-            <Button
-                android:id="@+id/leftbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Left" />
-
-            <Button
-                android:id="@+id/rightbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Right" />
+                android:text="@string/stop" />
         </LinearLayout>
-
-        <Button
-            android:id="@+id/downbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Down"
-            app:layout_constraintEnd_toEndOf="@id/upbtn"
-            app:layout_constraintStart_toStartOf="@id/upbtn"
-            app:layout_constraintTop_toBottomOf="@id/leftrightbtns" />
 
         <LinearLayout
             android:id="@+id/trackinggroup"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            app:layout_constraintTop_toBottomOf="@id/downbtn"
-            tools:layout_editor_absoluteX="16dp">
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="537dp">
 
-            <Switch
+            <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/trackingonoff"
                 android:layout_width="wrap_content"
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="Tracking"
-                tools:ignore="UseSwitchCompatOrMaterialXml" />
+                android:text="@string/tracking" />
 
             <ImageView
                 android:id="@+id/trackingIndicator"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:contentDescription="@string/tracking_indicator_desc"
                 app:srcCompat="@android:drawable/btn_star_big_off" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

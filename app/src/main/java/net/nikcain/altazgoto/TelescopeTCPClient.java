@@ -86,6 +86,7 @@ public class TelescopeTCPClient {
                             response.append(responseLine.trim());
                         }
                         Log.i(LOG_TAG, response.toString());
+                        model.setDebugText(response.toString());
                     }
                 }
                 catch(IOException i)
@@ -111,7 +112,7 @@ public class TelescopeTCPClient {
                         try {
                             if (!status.equals("")) {
                                 JSONObject jObject = new JSONObject(status);
-                                model.getUiState().getValue().tracking = jObject.getBoolean("Tracking");
+                                model.getUiState().getValue().tracking = (1 == jObject.getInt("Tracking"));
                                 model.getUiState().getValue().currentAlt = jObject.getDouble("currentAlt");
                                 model.getUiState().getValue().currentAz = jObject.getDouble("currentAz");
 
@@ -158,38 +159,18 @@ public class TelescopeTCPClient {
         SendHTTPPOST(js);
     }
 
-    void Reset()
-    {
-        String js = "{\"messageType\": \"Reset\"}";
-        SendHTTPPOST(js);
-    }
-
     void Stop()
     {
         String js = "{\"messageType\": \"Stop\"}";
         SendHTTPPOST(js);
     }
-    void Move(direction dir)
+    void Move(double x, double y)
     {
+        // Y is degrees to move alt
+        // X is degrees to move az
         String js = "{\"messageType\": \"Move\",\"message\": ";
-        js += "{\"Move\": \"";
-        switch(dir)
-        {
-            case up:
-                js += "up";
-                break;
-            case down:
-                js += "down";
-                break;
-            case left:
-                js += "left";
-                break;
-            case right:
-                js += "right";
-                break;
-        }
-        js += "\"}";
-        js += "}";
+        js += "{\"X\": "+x+",\"Y\": "+y+"}}";
+
         SendHTTPPOST(js);
     }
 

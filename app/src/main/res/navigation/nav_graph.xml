@@ -27,6 +27,9 @@
         <action
             android:id="@+id/action_controls_to_alignment"
             app:destination="@id/alignmentFragment" />
+        <action
+            android:id="@+id/action_ControlFragment_to_movementFragment"
+            app:destination="@id/movementFragment" />
     </fragment>
     <fragment
         android:id="@+id/alignmentFragment"
@@ -36,5 +39,13 @@
         <action
             android:id="@+id/action_alignmentFragment_to_ControlFragment"
             app:destination="@id/ControlFragment" />
+        <action
+            android:id="@+id/action_alignmentFragment_to_movementFragment"
+            app:destination="@id/movementFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/movementFragment"
+        android:name="net.nikcain.altazgoto.MovementFragment"
+        android:label="@string/movement_fragment_label"
+        tools:layout="@layout/movement_fragment" />
 </navigation>
