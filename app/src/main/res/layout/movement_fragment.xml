@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".MovementFragment">
 
+    <ImageView
+        android:id="@+id/reticule"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="Reticule"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_reticule"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <View
         android:id="@+id/touchArea"
         android:layout_width="match_parent"

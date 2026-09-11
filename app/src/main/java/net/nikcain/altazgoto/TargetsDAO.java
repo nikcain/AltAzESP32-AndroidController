@@ -11,12 +11,12 @@ import java.util.List;
 public interface TargetsDAO {
 
     @Query("SELECT * FROM targets")
-    public ListenableFuture<List<targets>> getAll();
+    ListenableFuture<List<targets>> getAll();
 
     @Query("select * from targets where searchText like '%' || :searchterm || '%'")
-    public ListenableFuture<List<targets>> findTarget(String searchterm);
+    ListenableFuture<List<targets>> findTarget(String searchterm);
 
     @Query("select * from calibrationstars")
-    public ListenableFuture<List<calibrationstars>> getCalibrationStars();
+    ListenableFuture<List<calibrationstars>> getCalibrationStars();
 }
 

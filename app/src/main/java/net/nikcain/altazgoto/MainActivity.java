@@ -15,11 +15,8 @@ import androidx.room.Room;
 
 import net.nikcain.altazgoto.databinding.ActivityMainBinding;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -27,19 +24,15 @@ import com.google.common.util.concurrent.ListenableFuture;
 
 import java.time.LocalDate;
 import java.time.temporal.JulianFields;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private AppDatabase appDatabase;
     private AppBarConfiguration appBarConfiguration;
-    private ActivityMainBinding binding;
     AppViewModel model;
     StarCalculations sc = new StarCalculations();
     AdvancedTelescopeAligner AlignmentMgr = new AdvancedTelescopeAligner();
-    private double m_lat = 52.6019682;
-    private double m_long = -3.0955309;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         assert ctx != null;
 
-        appDatabase = Room.databaseBuilder(ctx, AppDatabase.class, "skyObjects")
+        AppDatabase appDatabase = Room.databaseBuilder(ctx, AppDatabase.class, "skyObjects")
                 .createFromAsset("skyObjects5.db")
                 .fallbackToDestructiveMigration(true)
                 .build();
@@ -69,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         );
 
         model = new ViewModelProvider(this).get(AppViewModel.class);
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.setAppviewmodel(model);
         model.setCalibrationPointSet(0, false);
@@ -91,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
@@ -117,13 +110,15 @@ public class MainActivity extends AppCompatActivity {
             // Get Julian day number
             long jd = date.getLong(JulianFields.JULIAN_DAY);
 
+            double m_lat = 52.6019682;
+            double m_long = -3.0955309;
             double[] pos = sc.raDecToAltAz(star.ra, star.dec, m_lat, m_long);
 
             // don't use stars too close to horizon or too vertically up
             // don't use stars close to 180 Az (makes scope judder)
             if (pos[0] > 30 && pos[0] < 60 && (pos[1] < 170 || pos[1] > 190)) {
                 boolean usethisone = true;
-                for (AlignmentStar cmp_star : model.getUiState().getValue().chosen) {
+                for (AlignmentStar cmp_star : Objects.requireNonNull(model.getUiState().getValue()).chosen) {
                     double[] cmp_pos = sc.raDecToAltAz(cmp_star.baseStar.ra, cmp_star.baseStar.dec, m_lat, m_long);
                     double az_separation = Math.abs(pos[1] - cmp_pos[1]);
 

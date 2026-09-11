@@ -1,6 +1,5 @@
 package net.nikcain.altazgoto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AppDataModel {

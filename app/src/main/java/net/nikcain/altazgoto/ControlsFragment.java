@@ -11,15 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
-
 import net.nikcain.altazgoto.databinding.ControlsFragmentBinding;
-
-import java.util.Calendar;
-import java.util.Date;
 
 public class ControlsFragment extends Fragment {
     public static final String LOG_TAG = "ControlsFragment";

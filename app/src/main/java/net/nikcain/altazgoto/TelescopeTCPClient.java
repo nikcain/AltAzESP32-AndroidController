@@ -92,8 +92,6 @@ public class TelescopeTCPClient {
                 catch(IOException i)
                 {
                     Log.e(LOG_TAG, "SendHTTPPOST2: "+ i.getMessage());
-                    //model.setDebugText("SendHTTPPOST2: "+ i.getMessage());
-                    //isConnected = false;
                 } catch (RuntimeException e) {
                     Log.e(LOG_TAG, "runtime: "+ e.getMessage());
                     model.setDebugText("runtime: "+ e.getMessage());

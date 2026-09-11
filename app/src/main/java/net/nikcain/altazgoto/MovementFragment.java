@@ -7,13 +7,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.google.android.material.materialswitch.MaterialSwitch;
-
 import java.util.Locale;
 
 public class MovementFragment extends Fragment {
@@ -29,7 +26,7 @@ public class MovementFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        tcpclient = new TelescopeTCPClient(((MainActivity)getActivity()).model);
+        tcpclient = new TelescopeTCPClient(((MainActivity) requireActivity()).model);
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.movement_fragment, container, false);
     }
@@ -59,43 +56,29 @@ public class MovementFragment extends Fragment {
 
     private void captureTouchLocation(float x, float y, int action) {
 
-        double movex = 0;
-        double movey = 0;
+        double movex;
+        double movey;
+        assert getView() != null;
         View touchArea = getView().findViewById(R.id.touchArea);
         double max_x = ((double) touchArea.getWidth()) / 2.0;
         double max_y = ((double) touchArea.getHeight()) / 2.0;
-        String actionName;
-        switch (action) {
-            case MotionEvent.ACTION_DOWN:
-                actionName = "DOWN";
-                // sending a normalised value using the width, so all directions
-                // have the same scale, but you could push the up and down harder
+        if (action == MotionEvent.ACTION_DOWN) {
+            // sending a normalised value using the width, so all directions
+            // have the same scale, but you could push the up and down harder
 
-                // if eyepiece mode is on, then image is inverted, and so controls
-                // need inverting too
-                if (isEyepieceMode)
-                {
-                    movex = -1*(x-max_x)/max_x ;
-                    movey = -1*(y-max_y)/max_y;
-                }
-                else {
-                    movex = (x-max_x)/max_x;
-                    movey = (y-max_y)/max_y;
-                }
-                tcpclient.Move(movex, movey);
+            // if eyepiece mode is on, then image is inverted, and so controls
+            // need inverting too
+            if (isEyepieceMode) {
+                movex = -1 * (x - max_x) / max_x;
+                movey = -1 * (y - max_y) / max_x;
+            } else {
+                movex = (x - max_x) / max_x;
+                movey = (y - max_y) / max_x;
+            }
+            tcpclient.Move(movex, movey);
 
-                String coords = String.format(Locale.getDefault(), "Action: %s\nX: %.2f\nY: %.2f", actionName, movex, movey);
-                coordsTextView.setText(coords);
-                break;
-            case MotionEvent.ACTION_MOVE:
-                actionName = "MOVE";
-                break;
-            case MotionEvent.ACTION_UP:
-                actionName = "UP";
-                break;
-            default:
-                actionName = "OTHER";
-                break;
+            String coords = String.format(Locale.getDefault(), "X: %.2f\nY: %.2f", movex, movey);
+            coordsTextView.setText(coords);
         }
     }
 }
