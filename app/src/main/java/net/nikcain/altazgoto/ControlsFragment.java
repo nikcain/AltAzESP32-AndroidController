@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -67,7 +66,7 @@ public class ControlsFragment extends Fragment {
             }
         });
 
-        binding.trackingonoff.setOnClickListener(v->tcpclient.SetTracking(((Switch)v).isChecked()));
+        binding.trackingonoff.setOnClickListener(v -> tcpclient.SetTracking(binding.trackingonoff.isChecked()));
         binding.stopbtn.setOnClickListener(v -> tcpclient.Stop());
 
         final Handler handler = new Handler(Looper.getMainLooper());

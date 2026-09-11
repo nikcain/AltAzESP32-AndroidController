@@ -11,6 +11,7 @@
         <item name="colorSurface">@color/black</item>
         <item name="colorOnSurface">@color/night_red</item>
         <item name="colorOnSurfaceVariant">@color/night_red</item>
+        <item name="android:textColor">@color/night_red</item>
         <item name="android:textColorPrimary">@color/night_red</item>
         <item name="android:textColorSecondary">@color/night_red</item>
         <item name="android:windowBackground">@color/black</item>

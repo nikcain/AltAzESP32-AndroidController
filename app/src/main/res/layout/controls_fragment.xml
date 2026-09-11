@@ -169,7 +169,9 @@
                 android:layout_height="56dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:text="@string/tracking" />
+                android:text="@string/tracking"
+                android:theme="@style/Theme.AltAzGoto"
+                app:showText="true" />
 
             <ImageView
                 android:id="@+id/trackingIndicator"

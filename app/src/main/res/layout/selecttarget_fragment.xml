@@ -49,6 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="32dp"
+            android:theme="@style/Theme.AltAzGoto"
             app:layout_constraintTop_toBottomOf="@id/btn_searchDB"
             tools:layout_editor_absoluteX="16dp" />
 
